@@ -25,7 +25,9 @@ function Dashboard() {
     fetchUserName();
   }, [user, loading]);
   return (
-    <div className="dashboard">
+    <div className="flex grid md:grid-cols-5 grid-cols-1 grid-cols-5 h-screen">
+      <div className="md:col-start-2 col-end-5 col-span-4 md:col-end-3 col-span-1 text-center shadow-2xl rounded-md bg-secondary">
+      {/* <div className="dashboard">
        <div className="dashboard__container">
         Logged in as
          <div>{name}</div>
@@ -34,7 +36,11 @@ function Dashboard() {
           Logout
          </button>
        </div>
-     </div>
+     </div> */}
+    </div>
+    </div>
+    
+    
   );
 }
 export default Dashboard;

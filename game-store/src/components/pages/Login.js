@@ -20,10 +20,10 @@ function Login() {
     if (user) navigate("/dashboard");
   }, [user, loading]);
   return (
-    <div className="flex grid grid-cols-5 h-screen">
-      <div className="col-span-3 bg-center bg-cover bg-[url('/src/images/octagon.gif')]">
+    <div className="flex grid md:grid-cols-5 grid-cols-1 grid-cols-5 h-screen">
+      <div className="md:col-span-3 col-span-0 bg-center bg-cover bg-[url('/src/images/octagon.gif')]">
       </div>
-      <div className="col-span-2 flex justify-center content-center shadow-2xl ">
+      <div className="md:col-span-2 col-span-1 col-span-2 flex justify-center content-center shadow-2xl ">
         <div className="login">
           <div className="login__container">
             <article class="prose mb-4 h-32 text-4xl">
