@@ -4,6 +4,7 @@ import Register from "./components/pages/Register";
 import Reset from "./components/pages/Reset";
 import Dashboard from "./components/pages/Dashboard";
 function App() {
+  
   return (
     <div className="app">
       <Router>

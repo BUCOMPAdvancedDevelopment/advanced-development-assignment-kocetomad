@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import { auth, db, logout } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
+import NavBar from "../navbar"
+import { getAllItems } from "../../db/supabase"
+
 function Dashboard() {
+  getAllItems().then((value) => console.log(value))
+  
+
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -25,8 +31,8 @@ function Dashboard() {
     fetchUserName();
   }, [user, loading]);
   return (
-    <div className="flex grid md:grid-cols-5 grid-cols-1 grid-cols-5 h-screen">
-      <div className="md:col-start-2 col-end-5 col-span-4 md:col-end-3 col-span-1 text-center shadow-2xl rounded-md bg-secondary">
+    <div className="store__container">
+      <div className="store">
       {/* <div className="dashboard">
        <div className="dashboard__container">
         Logged in as
@@ -36,9 +42,13 @@ function Dashboard() {
           Logout
          </button>
        </div>
+       
      </div> */}
+    <NavBar/>
+     
     </div>
     </div>
+    
     
     
   );

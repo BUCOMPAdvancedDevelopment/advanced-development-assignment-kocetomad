@@ -1,25 +1,13 @@
-.dashboard {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .store__container {
+    @apply flex grid md:grid-cols-5 grid-cols-1 h-screen;
   }
-  .dashboard__container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    background-color: #dcdcdc;
-    padding: 30px;
+
+  .store {
+    @apply md:col-start-2 md:col-span-3 col-span-1 my-8 text-center shadow-2xl rounded-md bg-base-100;
   }
-  .dashboard__btn {
-    padding: 10px;
-    font-size: 18px;
-    margin-top: 10px;
-    border: none;
-    color: white;
-    background-color: black;
-  }
-  .dashboard div {
-    margin-top: 7px;
-  }
+}
