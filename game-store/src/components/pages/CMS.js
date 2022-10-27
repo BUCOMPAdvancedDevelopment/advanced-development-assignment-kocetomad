@@ -5,11 +5,10 @@ import "./Dashboard.css";
 import { auth, db, logout } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import NavBar from "../navbar";
-import HorizontalList from "../horizontalList"
-import Carousel from "../Carousel";
 import { getAllItems } from "../../db/supabase";
+import InventoryList from "../inventoryList";
 
-function Dashboard() {
+function CMS() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -32,31 +31,14 @@ function Dashboard() {
   return (
     <div className="store__container">
       <div className="store">
-        {/* <div className="dashboard">
-       <div className="dashboard__container">
-        Logged in as
-         <div>{name}</div>
-         <div>{user?.email}</div>
-         <button className="dashboard__btn" onClick={logout}>
-          Logout
-         </button>
-       </div>
-       
-     </div> */}
         <NavBar />
-        <Carousel />
-        <div className="flex flex-col mx-8">
-          <p className="font-bold text-3xl text-left">Top Sellers 🤯</p>
+        <div className="flex flex-col mx-8 mt-6">
+          <p className="font-bold text-3xl text-left">Inventory 🗒️</p>
           <div className="divider"></div>
-          <HorizontalList/>
         </div>
-        <div className="flex flex-col mx-8 ">
-          <p className="font-bold text-3xl text-left">Trending 🔥</p>
-          <div className="divider"></div>
-          <HorizontalList/>
-        </div>
+        <InventoryList />
       </div>
     </div>
   );
 }
-export default Dashboard;
+export default CMS;

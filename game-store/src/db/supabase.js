@@ -16,9 +16,9 @@ const getAllItems = async() => {
             .from("store_items")
             .select("*");
             if(error){
-                console.log(error)
+                return (error)
             }else{
-                console.log(data)
+                return (data)
             }
   };
 
