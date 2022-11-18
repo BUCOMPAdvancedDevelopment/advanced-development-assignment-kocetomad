@@ -1,4 +1,4 @@
-import StoreCard from "./storeCard";
+import StoreCard from "./StoreCard";
 
 const HorizontalList = () => {
   return (

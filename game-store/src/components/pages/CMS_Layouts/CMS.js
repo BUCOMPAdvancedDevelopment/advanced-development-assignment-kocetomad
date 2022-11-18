@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
-import { auth, db, logout } from "../firebase";
+import "../styles/Dashboard.css";
+import { auth, db, logout } from "../../Firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
-import NavBar from "../navbar";
-import { getAllItems } from "../../db/supabase";
-import InventoryList from "../inventoryList";
+import NavBar from "../../Navbar";
+import { getAllItems } from "../../../db/supabase";
+import InventoryList from "./InventoryList";
 
 function CMS() {
   const [user, loading, error] = useAuthState(auth);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { auth, db, logout } from "./firebase";
+import { auth, db, logout } from "./Firebase";
 import { getAllItems } from "../db/supabase";
 
 const Carousel = () => {

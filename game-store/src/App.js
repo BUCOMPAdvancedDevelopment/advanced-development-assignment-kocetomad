@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
-import Reset from "./components/pages/Reset";
-import Dashboard from "./components/pages/Dashboard";
-import CMS from "./components/pages/CMS";
+import Login from "./components/pages/Store_Layouts/Login";
+import Register from "./components/pages/Store_Layouts/Register";
+import Reset from "./components/pages/Store_Layouts/Reset";
+import Dashboard from "./components/pages/Store_Layouts/Dashboard";
+import CMS from "./components/pages/CMS_Layouts/CMS";
 function App() {
   
   return (
