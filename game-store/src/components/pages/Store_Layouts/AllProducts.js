@@ -5,12 +5,12 @@ import "../styles/Dashboard.css";
 import { auth, db, logout } from "../../Firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import NavBar from "../../Navbar";
-import HorizontalList from "../../HorizontalList"
+import VerticalList from "../../VerticalList";
 import Carousel from "../../Carousel";
 import { FaTrash,FaEdit,FaPlusSquare,FaKey, FaList} from 'react-icons/fa';
 import { getAllItems } from "../../../db/supabase";
 
-function Dashboard() {
+function AllProducts() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -39,20 +39,13 @@ function Dashboard() {
     <div className="store__container">
       <div className="store">
         <NavBar />
-        <Carousel />
-        <div className="flex flex-col mx-8">
-          <p className="font-bold text-3xl text-left">Top Sellers 🤯</p>
+        <div className="flex flex-col mx-8 mt-6">
+          <p className="font-bold text-3xl text-left">All products 👏</p>
           <div className="divider"></div>
-          <HorizontalList/>
+          <VerticalList/>
         </div>
-        <div className="flex flex-col mx-8 ">
-          <p className="font-bold text-3xl text-left">Trending 🔥</p>
-          <div className="divider"></div>
-          <HorizontalList/>
-        </div>
-        <button className="flex-1 btn btn-primary w-full mx-8 my-8" onClick={() => viewAllItems()}>View all products&nbsp;&nbsp;<FaList/></button>
       </div>
     </div>
   );
 }
-export default Dashboard;
+export default AllProducts;
