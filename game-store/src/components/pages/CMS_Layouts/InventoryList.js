@@ -1,17 +1,49 @@
 import { FaTrash, FaEdit, FaPlusSquare, FaKey } from "react-icons/fa";
 import NewItemModal from "./AddNewLisingModal";
+import { getAllItems } from "../../../db/supabase";
+import React, { useEffect, useState } from "react";
+import replaceAll from "../../Util";
 
 const InventoryList = () => {
+  const [productList, setProductList] = useState(null);
+
+  useEffect(() => {
+    getAllItems().then((value) => setProductList(value));
+  }, []);
+
+  const ItemsList = ({list}) => {
+    //console.log("state ", state)
+    if (list !== null) {
+      return list.map((item, index) => <tr>
+      <th>{index}</th>
+      <td>{replaceAll(item.item_name,"_"," ")}</td>
+      <td>Tax Accountant</td>
+      <td>Red</td>
+      <th>
+        <button className="btn btn-square bg-error">
+          <FaTrash color="white" />
+        </button>
+        <button className="btn btn-square bg-info">
+          <FaEdit color="white" />
+        </button>
+      </th>
+    </tr>);
+    } else {
+      console.log("not loaded");
+      return <div>Loading...</div>;
+    }
+  };
+
   return (
     <div className="overflow-x-auto mx-8">
-      <input type="checkbox" id="my-modal-6" class="modal-toggle" />
+      <input type="checkbox" id="my-modal-3" class="modal-toggle" />
       <NewItemModal />
 
       <div className="btn-group btn-group-vertical lg:btn-group-horizontal flex ">
-        <label for="my-modal-6" class="flex-1 btn btn-success">
+        <label for="my-modal-3" class="flex-1 btn btn-success">
           Add new listing <FaPlusSquare />
         </label>
-        <label for="my-modal-6" class="flex-1 btn btn-secondary rounded-t-lg">
+        <label for="my-modal-3" class="flex-1 btn btn-secondary rounded-t-lg">
           Add new standalone key <FaKey />
         </label>
       </div>
@@ -26,38 +58,7 @@ const InventoryList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">details</button>
-            </th>
-          </tr>
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">details</button>
-            </th>
-          </tr>
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-            <th>
-              <button className="btn btn-square bg-error">
-                <FaTrash color="white" />
-              </button>
-              <button className="btn btn-square bg-info">
-                <FaEdit color="white" />
-              </button>
-            </th>
-          </tr>
+        <ItemsList list={productList}/>
         </tbody>
       </table>
     </div>

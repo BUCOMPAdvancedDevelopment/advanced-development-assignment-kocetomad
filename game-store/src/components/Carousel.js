@@ -42,11 +42,6 @@ const Carousel = () => {
       return <div>Loading...</div>;
     }
 
-    // return (
-    //     <div id="" className="carousel-item w-full">
-    //
-    //     </div>
-    //     )
   };
 
   return (

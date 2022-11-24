@@ -50,7 +50,10 @@ function Dashboard() {
           <div className="divider"></div>
           <HorizontalList/>
         </div>
-        <button className="flex-1 btn btn-primary w-full mx-8 my-8" onClick={() => viewAllItems()}>View all products&nbsp;&nbsp;<FaList/></button>
+        <div className="my-8 px-8">
+        <button className="flex-1 btn btn-primary w-full" onClick={() => viewAllItems()}>View all products&nbsp;&nbsp;<FaList/></button>
+        </div>
+        
       </div>
     </div>
   );
