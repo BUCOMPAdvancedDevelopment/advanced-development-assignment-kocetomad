@@ -11,6 +11,7 @@ import InventoryList from "./InventoryList";
 function CMS() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
+
   const navigate = useNavigate();
   const fetchUserName = async () => {
     try {

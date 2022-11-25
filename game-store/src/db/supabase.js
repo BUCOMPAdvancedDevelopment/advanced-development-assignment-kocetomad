@@ -14,15 +14,8 @@ const getAllItems = async () => {
   }
 };
 
-const insertItem = async () => {
-  const { data, error } = await supabase.from("store_items").insert([
-    {
-      item_name: "someValue",
-      item_description: "otherValue",
-      item_tags: ["MMORPG", "Fantasy"],
-      item_price: 49.99,
-    },
-  ]);
+const insertItem = async (item) => {
+  const { data, error } = await supabase.from("store_items").insert(item);
   return { data, error };
 };
 

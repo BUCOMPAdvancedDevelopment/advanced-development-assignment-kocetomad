@@ -6,6 +6,7 @@ import replaceAll from "../../Util";
 
 const InventoryList = () => {
   const [productList, setProductList] = useState(null);
+  const [modalVis, setModalVis] = useState(false);
 
   useEffect(() => {
     getAllItems().then((value) => setProductList(value));
@@ -37,10 +38,9 @@ const InventoryList = () => {
   return (
     <div className="overflow-x-auto mx-8">
       <input type="checkbox" id="my-modal-3" class="modal-toggle" />
-      <NewItemModal />
-
+      {modalVis ? (<NewItemModal setVis={setModalVis} />) : ""}
       <div className="btn-group btn-group-vertical lg:btn-group-horizontal flex ">
-        <label for="my-modal-3" class="flex-1 btn btn-success">
+        <label for="my-modal-3" class="flex-1 btn btn-success" onClick={()=>setModalVis(true)}>
           Add new listing <FaPlusSquare />
         </label>
         <label for="my-modal-3" class="flex-1 btn btn-secondary rounded-t-lg">

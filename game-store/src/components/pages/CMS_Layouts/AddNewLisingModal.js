@@ -3,45 +3,76 @@ import { useEffect, useState, ChangeEvent } from "react";
 import { insertItem } from "../../../db/supabase";
 import { uploadImages } from "../../../db/supabase";
 import { supabase } from "../../../db/supabase";
+import replaceAll from "../../Util";
 
 const TagList = ({ size }) => {
-  return [...Array(size)].map((e, i) => (
+  return [...Array(size)].map((e, index) => (
     <input
       type="text"
       placeholder="Enter tag name"
       class="input input-bordered input-primary w-40 max-w-xs"
+      onChange={(e) => (tagsList[index] = e.target.value)}
     />
   ));
 };
+let tagsList = [""];
 
-const NewItemModal = () => {
+const NewItemModal = ({ setVis }) => {
   const [tagsCount, setTagsCount] = useState(1);
   const [selectedFile, setSelectedFile] = useState("");
-
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState([""]);
+  const [price, setPrice] = useState(0);
   const handleUpload = async (e) => {
     let file;
 
     if (e.target.files) {
       file = e.target.files[0];
     }
-    setSelectedFile(e.target.files)
-    
-
+    setSelectedFile(e.target.files);
   };
 
   const InsertListing = async () => {
-    insertItem().then((value) =>
-      console.log("insert response: " + value.error.message)
-    );
-    const { data, error } = await supabase.storage
-      .from("item.imgs")
-      .upload("public/" + selectedFile[0]?.name, selectedFile[0]);
+    let item = [
+      {
+        item_name: title,
+        item_description: description,
+        item_tags: tagsList,
+        item_price: price,
+      },
+    ];
+    insertItem(item).then(async (value) => {
+      console.log(value);
+      if (value.data == null && value.error == null) {
+        const { data, error } = await supabase.storage
+          .from("item.imgs")
+          .upload(
+            replaceAll(title, " ", "_") +
+              "/thumbnails/" +
+              selectedFile[0]?.name,
+            selectedFile[0]
+          );
+        if (selectedFile.length > 1) {
+          for (let index = 1; index < selectedFile.length; index++) {
+            const element = selectedFile[index];
+            const { data, error } = await supabase.storage
+              .from("item.imgs")
+              .upload(
+                replaceAll(title, " ", "_") + "/gallery/" + element?.name,
+                element
+              );
+          }
+        }
 
-    if (data) {
-      console.log(data);
-    } else if (error) {
-      console.log(error);
-    }
+        if (data) {
+          console.log(data);
+          setVis(false);
+        } else if (error) {
+          console.log(error);
+        }
+      }
+    });
   };
 
   return (
@@ -60,11 +91,15 @@ const NewItemModal = () => {
             type="text"
             placeholder="Enter item name"
             class="input input-bordered input-primary w-full max-w-xs"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
           <p class="py-1 pt-3">Item description:</p>
           <textarea
             class="textarea textarea-primary w-full max-w-xs"
             placeholder="Bio"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
           ></textarea>
           <p class="py-1 pt-3">Item tags:</p>
           <div className="flex flex-nowrap overflow-auto gap-4">
@@ -72,7 +107,11 @@ const NewItemModal = () => {
           </div>
           <button
             class="btn gap-2 mt-2 btn-secondary"
-            onClick={() => setTagsCount(tagsCount + 1)}
+            onClick={() => {
+              setTagsCount(tagsCount + 1);
+              tagsList.push("");
+              console.log(tagsList);
+            }}
           >
             Add new tag
             <FaPlusSquare />
@@ -82,8 +121,12 @@ const NewItemModal = () => {
             type="number"
             placeholder="Enter price"
             class="input input-bordered input-accent w-64 max-w-xs"
+            onChange={(e) => setPrice(e.target.value)}
+            value={price}
           />
-          <p class="py-1 pt-3">Images:</p>
+          <p class="py-1 pt-3">
+            Images (First Image would bse used as a <b>Thumbnail</b>):
+          </p>
           <div class="flex items-center justify-center w-full">
             <label
               for="dropzone-file"
@@ -112,13 +155,14 @@ const NewItemModal = () => {
                 <p class="text-xs text-gray-500 dark:text-gray-400">
                   {selectedFile == ""
                     ? "The first image uploaded will be used as a thumbnail"
-                    : selectedFile.length+" files uploaded"}
+                    : selectedFile.length + " files uploaded"}
                 </p>
               </div>
               <input
                 id="dropzone-file"
                 type="file"
                 class="hidden"
+                multiple="multiple"
                 accept=".png,.jpg,.jpeg,.webp"
                 onChange={(e) => handleUpload(e)}
               />
