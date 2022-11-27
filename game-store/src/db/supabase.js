@@ -14,6 +14,24 @@ const getAllItems = async () => {
   }
 };
 
+const getAllTrending = async () => {
+  let { data, error } = await supabase.from("store_items").select("*").eq("item_featured","Trending");
+  if (error) {
+    return error;
+  } else {
+    return data;
+  }
+};
+
+const getAllTop = async () => {
+  let { data, error } = await supabase.from("store_items").select("*").eq("item_featured","Top");
+  if (error) {
+    return error;
+  } else {
+    return data;
+  }
+};
+
 const insertItem = async (item) => {
   const { data, error } = await supabase.from("store_items").insert(item);
   return { data, error };
@@ -40,4 +58,4 @@ const uploadImages = async ({ file }) => {
   return { data, error };
 };
 
-export { getAllItems, insertItem, uploadImages };
+export { getAllItems, insertItem, uploadImages, getAllTrending, getAllTop };

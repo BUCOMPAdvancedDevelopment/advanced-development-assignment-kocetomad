@@ -1,9 +1,11 @@
 import { FaPlusSquare } from "react-icons/fa";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, CSSProperties } from "react";
 import { insertItem } from "../../../db/supabase";
 import { uploadImages } from "../../../db/supabase";
 import { supabase } from "../../../db/supabase";
 import replaceAll from "../../Util";
+import { getAllItems } from "../../../db/supabase";
+import HashLoader from "react-spinners/HashLoader";
 
 const TagList = ({ size }) => {
   return [...Array(size)].map((e, index) => (
@@ -17,13 +19,19 @@ const TagList = ({ size }) => {
 };
 let tagsList = [""];
 
-const NewItemModal = ({ setVis }) => {
+const NewItemModal = ({ setVis, setProductList }) => {
   const [tagsCount, setTagsCount] = useState(1);
   const [selectedFile, setSelectedFile] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([""]);
   const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    // document.getElementById("my-modal").checked = true;
+  }, [])
+  
+
   const handleUpload = async (e) => {
     let file;
 
@@ -36,13 +44,14 @@ const NewItemModal = ({ setVis }) => {
   const InsertListing = async () => {
     let item = [
       {
-        item_name: title,
+        item_name: replaceAll(title, " ", "_"),
         item_description: description,
         item_tags: tagsList,
         item_price: price,
       },
     ];
     insertItem(item).then(async (value) => {
+      document.getElementById("my-modal").checked = true;
       console.log(value);
       if (value.data == null && value.error == null) {
         const { data, error } = await supabase.storage
@@ -50,7 +59,7 @@ const NewItemModal = ({ setVis }) => {
           .upload(
             replaceAll(title, " ", "_") +
               "/thumbnails/" +
-              selectedFile[0]?.name,
+              "1",
             selectedFile[0]
           );
         if (selectedFile.length > 1) {
@@ -59,7 +68,7 @@ const NewItemModal = ({ setVis }) => {
             const { data, error } = await supabase.storage
               .from("item.imgs")
               .upload(
-                replaceAll(title, " ", "_") + "/gallery/" + element?.name,
+                replaceAll(title, " ", "_") + "/gallery/" + index,
                 element
               );
           }
@@ -68,11 +77,20 @@ const NewItemModal = ({ setVis }) => {
         if (data) {
           console.log(data);
           setVis(false);
+          document.getElementById("my-modal").checked = false;
+
+          getAllItems().then((value) => setProductList(value));
         } else if (error) {
           console.log(error);
         }
       }
     });
+  };
+
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
   };
 
   return (
@@ -85,6 +103,17 @@ const NewItemModal = ({ setVis }) => {
           ✕
         </label>
         <div class="text-left">
+          <input type="checkbox" id="my-modal" class="modal-toggle" />
+          <div class="modal">
+            <div class="modal-open ">
+              <div class="modal-box pr-8">
+              <HashLoader color="#36d7b7" class="ml-4"/>
+              <p class="py-1 text-center">Publishing...</p>
+
+              </div>
+            </div>
+          </div>
+
           <h3 class="font-bold text-lg mb-2">Add new item:</h3>
           <p class="py-1">Item name:</p>
           <input
