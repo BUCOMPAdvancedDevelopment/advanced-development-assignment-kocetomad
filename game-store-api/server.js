@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 app.use(morgan("tiny"));
+app.set('trust proxy', true);
 
 // SupaBase init
 const SupaBase = require("@supabase/supabase-js");
@@ -31,4 +32,4 @@ app.get("/test", (req, res) =>
 );
 
 
-app.listen(4000, () => console.log("APP RUNNING ON PORT:4000"));
+app.listen(8080, () => console.log("APP RUNNING ON PORT:4000"));
