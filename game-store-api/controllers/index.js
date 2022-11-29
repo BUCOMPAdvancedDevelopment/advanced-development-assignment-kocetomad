@@ -1,3 +1,24 @@
+
+var Pool = require("pg-pool");
+
+var pool = new Pool({
+  host: "34.105.214.12",
+  database: "postgres",
+  port: "5432",
+  user: "postgres",
+  password: "123456", // close (and replace) a connection after it has been used 7500 times (see below for discussion)
+});
+
+const getDate = async() => {
+    var client = await pool.connect();
+    try {
+      var result = await client.query("select CURRENT_DATE;");
+      console.log("hello from", result.rows[0]);
+    } finally {
+      return result;
+    }
+};
+
 const getAllItems = (req, res, supabase) => {
   (async function () {
     return ({ data: store_items, error } = await supabase
@@ -5,11 +26,20 @@ const getAllItems = (req, res, supabase) => {
       .select("*"));
   })().then((value) => res.json(value));
 };
-const test = (res) => {
-  (async function () {
-    return "hell=o"
-  })().then((value) => res.send(value));
+
+
+const test = async(res, pool) => {
+        var client = await pool.connect()
+        try {
+          var result = await client.query("INSERT INTO items (id, item_name, item_description, item_price, item_featured) VALUES (1, 'value2', 'desc', 60, 'yes')")
+          console.log('hello from', result.rows[0])
+          //res.send('final')
+        } finally {
+          console.log('final')
+          client.release()
+        }
 };
+
 // const updateCheckoutID = (req, res, pool) => {
 //   HTTP.evaluateUserRequest(graphql.evaluateUser, { token: req.body.token })
 //     .then((response) => {
