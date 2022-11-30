@@ -9,10 +9,12 @@ import VerticalList from "../../VerticalList";
 import Carousel from "../../Carousel";
 import { FaTrash,FaEdit,FaPlusSquare,FaKey, FaList} from 'react-icons/fa';
 import { getAllItems } from "../../../db/supabase";
-
+import ListingView from "../../ListingView";
 function AllProducts() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
+  const [selected, setSelected] = useState({item_name: "",item_description : "", item_tags: [""],item_price : 0, item_featured: ""});
+
   const navigate = useNavigate();
 
   const viewAllItems = () => {
@@ -36,12 +38,14 @@ function AllProducts() {
   }, [user, loading]);
   return (
     <div className="store__container">
+      <input type="checkbox" id="my-modal-9" class="modal-toggle" />
+      <ListingView selected={selected}/>
       <div className="store">
         <NavBar />
         <div className="flex flex-col mx-8 mt-6">
           <p className="font-bold text-3xl text-left">All products 👏</p>
           <div className="divider"></div>
-          <VerticalList/>
+          <VerticalList setSelected={setSelected}/>
         </div>
       </div>
     </div>

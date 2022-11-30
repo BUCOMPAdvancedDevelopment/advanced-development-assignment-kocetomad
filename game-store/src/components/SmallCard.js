@@ -2,7 +2,7 @@ import { FaCartPlus } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import replaceAll from "./Util";
 
-const SmallCard = ({item}) => {
+const SmallCard = ({item, setSelected }) => {
   const [Badge, setBadge] = useState(null)
   useEffect(() => {
     setBadge(item.item_tags)
@@ -18,8 +18,13 @@ const SmallCard = ({item}) => {
     }
   }
 
+  const listingView = () => {
+    document.getElementById("my-modal-9").checked = true;
+    setSelected(item)
+  }
+
   return (
-    <div className="flex card md:w-64 w-full bg-base-200 shadow-xl cursor-pointer hover:bg-base-300">
+    <div className="flex card md:w-64 w-full bg-base-200 shadow-xl cursor-pointer hover:bg-base-300" onClick={() => listingView()}>
       <p className="bg-primary absolute top-40 mt-16 h-8 px-2 pt-1">
         <h2 className="card-title alig n-middle text-white">{item.item_price}£</h2>
       </p>

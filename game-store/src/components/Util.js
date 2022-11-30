@@ -6,4 +6,8 @@ function replaceAll(str, find, replace) {
   return str.replace(new RegExp(escapeRegExp(find), "g"), replace);
 }
 
+function sum(a, b) {
+  return a + b;
+}
+
 export default replaceAll;

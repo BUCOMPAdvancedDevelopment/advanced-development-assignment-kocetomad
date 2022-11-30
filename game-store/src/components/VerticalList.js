@@ -2,7 +2,7 @@ import SmallCard from "./SmallCard";
 import React, { useEffect, useState } from "react";
 import { getAllItems } from "../db/supabase";
 
-const VerticalList = () => {
+const VerticalList = ({setSelected}) => {
   const [productList, setProductList] = useState(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const VerticalList = () => {
   const ItemsList = () => {
     //console.log("state ", state)
     if (productList !== null) {
-      return productList.map((item, index) => <SmallCard item={item}/>);
+      return productList.map((item, index) => <SmallCard item={item} setSelected={setSelected}/>);
     } else {
       console.log("not loaded");
       return <div>Loading...</div>;
