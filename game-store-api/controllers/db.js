@@ -1,11 +1,11 @@
 var Pool = require("pg-pool");
 
 var pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'ad',
-  password: '123456',
-  port: 5432, // close (and replace) a connection after it has been used 7500 times (see below for discussion)
+  host: "34.105.214.12",
+  database: "postgres",
+  port: "5432",
+  user: "postgres",
+  password: "123456", // close (and replace) a connection after it has been used 7500 times (see below for discussion)
 });
 
 const getDate = async() => {
@@ -21,7 +21,7 @@ const getDate = async() => {
 (async function () {
   var client = await pool.connect()
   try {
-    var result = await client.query('select CURRENT_DATE;',)
+    var result = await client.query("select CURRENT_DATE;",)
     console.log('hello from', result.rows[0])
   } finally {
     console.log('final')

@@ -8,6 +8,15 @@ const app = express();
 
 const controllers = require("./controllers");
 
+var Pool = require("pg-pool");
+
+var pool = new Pool({
+  host: "34.105.214.12",
+  database: "postgres",
+  port: "5432",
+  user: "postgres",
+  password: "123456", // close (and replace) a connection after it has been used 7500 times (see below for discussion)
+});
 // Middlewares
 app.use(express.json());
 app.use(helmet());
@@ -28,7 +37,7 @@ app.post("/getAllItems", (req, res) =>
 );
 
 app.get("/test", (req, res) =>
-  controllers.test(res)
+  controllers.test(res,pool)
 );
 
 
