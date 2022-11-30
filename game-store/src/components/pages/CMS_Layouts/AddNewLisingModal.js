@@ -30,8 +30,30 @@ const NewItemModal = ({ setVis, setProductList }) => {
   useEffect(() => {
     // document.getElementById("my-modal").checked = true;
   }, [])
+  const backup = async(item) => {
+    let body = {
+      id: 1,
+      item_name: item.item_name+"",
+      item_description: item.item_description,
+      item_tags: item.item_tags+"",
+      item_price: item.item_price+"",
+      item_featured: "-",
+    };
+    console.log(body)
+      const response = await fetch(
+        "https://backup-qu3bw5fxjq-nw.a.run.app",
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify(body),
+        }
+      );
+        console.log(response)
+  }
   
-
   const handleUpload = async (e) => {
     let file;
 
@@ -78,7 +100,9 @@ const NewItemModal = ({ setVis, setProductList }) => {
           console.log(data);
           setVis(false);
           document.getElementById("my-modal").checked = false;
-
+          backup(item[0]).catch((error) => {
+            console.error(error);
+          })
           getAllItems().then((value) => setProductList(value));
         } else if (error) {
           console.log(error);

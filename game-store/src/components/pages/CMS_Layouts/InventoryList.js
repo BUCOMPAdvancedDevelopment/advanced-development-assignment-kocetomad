@@ -67,7 +67,7 @@ const InventoryList = () => {
           <th>
             <button
               className="btn btn-square bg-error"
-              onClick={() => updateItem(item)}
+              onClick={() => deleteItem(item.item_name)}
             >
               <FaTrash color="white" />
             </button>
