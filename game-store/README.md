@@ -4,6 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ```expressjs-postgres/``` - contains the backup DB and it's supporting API
 
+```cloud-functions/``` - contains the cloud-function files
+
+
 ## Available Scripts
 
 In the project directory, you can run:
